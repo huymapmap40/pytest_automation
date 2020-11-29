@@ -1,0 +1,4 @@
+# ENDPOINT
+CURRENT_WEATHER = "/weather"
+ONE_CALL_DATA_WEATHER = "/onecall"
+

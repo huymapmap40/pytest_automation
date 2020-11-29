@@ -1,0 +1,34 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Run Parallel test",
+            "type": "python",
+            "request": "launch",
+            "python": "C:\\Users\\Admin\\AppData\\Local\\Programs\\Python\\Python38-32\\python.exe",
+            "program": "config\\parallel_test\\run_parallel_test.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}/src"
+        },
+        {
+            // Reference: https://code.visualstudio.com/docs/python/debugging
+            "name": "Debug PyTest",
+            "type": "python",
+            "request": "launch",
+            "stopOnEntry": false,
+            "python": "C:\\Users\\Admin\\AppData\\Local\\Programs\\Python\\Python38-32\\python.exe",
+            "module": "pytest",
+            "args": [ "--browser=chrome",
+                // ".\\test_cases\\UI\\open_weather_test.py"
+                ".\\test_cases\\UI\\open_weather_test.py::TestOpenWeather::test_search_weather_with_valid_city_and_display_results_correctly"
+            ],
+            "cwd": "${workspaceFolder}/src",
+            "env": {},
+            "envFile": "${workspaceFolder}/.env",
+            "console": "integratedTerminal"
+        }
+    ]
+}

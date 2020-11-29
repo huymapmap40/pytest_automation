@@ -1,0 +1,18 @@
+{
+    "test_suite": [
+        {
+            "name": "open_weather_test.py",
+            "test": {
+                "name": "TestOpenWeather.test_search_weather_with_valid_city_and_display_results_correctly",
+                "browser": "firefox"
+            }
+        },
+        {
+            "name": "open_weather_test.py",
+            "test": {
+                "name": "TestOpenWeather.test_search_weather_invalid_city_and_display_not_found_result",
+                "browser": "chrome"
+            }
+        }
+    ]
+}

@@ -1,0 +1,8 @@
+{
+  "config_info": {
+    "enable_remote_webdriver": false
+  },
+  "remote_webdriver": {
+    "remote_address": "http://localhost:4444/wd/hub"
+  }
+}

@@ -1,0 +1,107 @@
+============================= test session starts =============================
+platform win32 -- Python 3.8.5, pytest-6.1.2, py-1.9.0, pluggy-0.13.1
+rootdir: C:\Users\Admin\Desktop\PyTest Automation\src, configfile: pytest.ini
+plugins: allure-pytest-2.8.22, ast-transformer-1.0.3, forked-1.3.0, html-3.0.0, json-0.4.0, metadata-1.11.0, parallel-0.1.0, rerunfailures-9.1.1, soft-assertions-0.1.2, sugar-0.9.4, xdist-2.1.0
+collected 2 items
+
+src\test_cases\UI\open_weather_test.py FF                                [100%]
+
+================================== FAILURES ===================================
+_ TestOpenWeather.test_search_weather_with_valid_city_and_display_results_correctly[ho chi minh] _
+
+self = <src.test_cases.UI.open_weather_test.TestOpenWeather object at 0x04115E38>
+city_name = 'ho chi minh'
+
+    @pytest.mark.parametrize("city_name", ["ho chi minh", "ho chi minh, vn"])
+    def test_search_weather_with_valid_city_and_display_results_correctly(self, city_name):
+        TestOpenWeather().navigate_to(PageUrls.OPEN_WEATHER)
+        open_weather_main_page = OpenWeatherHomePage.get_instance()
+        search_result_page = open_weather_main_page.search_weather_in_your_city(city_name)
+        search_result_page.verify_ui_result_page_is_displayed_correctly()
+>       search_result_page.verify_search_data_weather_result_is_correctly(city_name)
+
+src\test_cases\UI\open_weather_test.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <src.page_objects.open_weather.search_weather_result_page.SearchWeatherResultPage object at 0x04115F88>
+city_name = 'ho chi minh'
+
+    def verify_search_data_weather_result_is_correctly(self, city_name):
+        expect_current_weather = CurrentWeatherHelper.get_current_weather_by_city(city_name).json()
+        actual_weather_data = self._weather_result_row(index=1)
+        with soft_assertions():
+            assert_that(self._txt_search_string.get_attribute_value("value")).is_equal_to(city_name)
+            assert_that(self._tbl_forecast_list.is_element_displayed()).is_true()
+            assert_that(actual_weather_data['txt_city_name'].get_text().lower()).contains(city_name)
+            assert_that(actual_weather_data['txt_description'].get_text()).is_equal_to(expect_current_weather['weather'][0]['description'])
+            assert_that(normalize("NFD", actual_weather_data['txt_weather_detail_content'].get_text())).is_equal_to(
+                normalize("NFD", OpenWeatherResultData.TEMPERATURE_CONTENT.format(temp_main=expect_current_weather['main']['temp'],
+                                                                 temp_min=expect_current_weather['main']['temp_min'],
+                                                                 temp_max=expect_current_weather['main']['temp_max'],
+                                                                 wind_speed=expect_current_weather['wind']['speed'],
+                                                                 cloud_rate=expect_current_weather['clouds']['all'],
+                                                                 hpa_value=expect_current_weather['main']['pressure']))
+            )
+            actual_lat_long = re.findall(r"[\d\.]+", actual_weather_data['txt_coordinate'].get_text())
+            assert_that(round(float(actual_lat_long[0]), 2), expect_current_weather['coord']['lat'])
+>           assert_that(round(float(actual_lat_long[1]), 2), expect_current_weather['coord']['lon'])
+E           AssertionError: soft assertion failures:
+E           1. Expected <broken clouds> to be equal to <light rain>, but was not.
+E           2. Expected <27\xb0\u0421 temperature from 27 to 27 \xb0\u0421, wind 2.6 m/s. clouds 75 %, 1009 hpa> to be equal to <27\xb0\u0421 temperature from 27 to 27 \xb0\u0421, wind 1.5 m/s. clouds 75 %, 1009 hpa>, but was not.
+
+src\page_objects\open_weather\search_weather_result_page.py:67: AssertionError
+---------------------------- Captured stdout setup ----------------------------
+Setup
+-------------------------- Captured stdout teardown ---------------------------
+Teardown
+_ TestOpenWeather.test_search_weather_with_valid_city_and_display_results_correctly[ho chi minh, vn] _
+
+self = <src.test_cases.UI.open_weather_test.TestOpenWeather object at 0x048559E8>
+city_name = 'ho chi minh, vn'
+
+    @pytest.mark.parametrize("city_name", ["ho chi minh", "ho chi minh, vn"])
+    def test_search_weather_with_valid_city_and_display_results_correctly(self, city_name):
+        TestOpenWeather().navigate_to(PageUrls.OPEN_WEATHER)
+        open_weather_main_page = OpenWeatherHomePage.get_instance()
+        search_result_page = open_weather_main_page.search_weather_in_your_city(city_name)
+        search_result_page.verify_ui_result_page_is_displayed_correctly()
+>       search_result_page.verify_search_data_weather_result_is_correctly(city_name)
+
+src\test_cases\UI\open_weather_test.py:19: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <src.page_objects.open_weather.search_weather_result_page.SearchWeatherResultPage object at 0x04115F88>
+city_name = 'ho chi minh, vn'
+
+    def verify_search_data_weather_result_is_correctly(self, city_name):
+        expect_current_weather = CurrentWeatherHelper.get_current_weather_by_city(city_name).json()
+        actual_weather_data = self._weather_result_row(index=1)
+        with soft_assertions():
+            assert_that(self._txt_search_string.get_attribute_value("value")).is_equal_to(city_name)
+            assert_that(self._tbl_forecast_list.is_element_displayed()).is_true()
+            assert_that(actual_weather_data['txt_city_name'].get_text().lower()).contains(city_name)
+            assert_that(actual_weather_data['txt_description'].get_text()).is_equal_to(expect_current_weather['weather'][0]['description'])
+            assert_that(normalize("NFD", actual_weather_data['txt_weather_detail_content'].get_text())).is_equal_to(
+                normalize("NFD", OpenWeatherResultData.TEMPERATURE_CONTENT.format(temp_main=expect_current_weather['main']['temp'],
+                                                                 temp_min=expect_current_weather['main']['temp_min'],
+                                                                 temp_max=expect_current_weather['main']['temp_max'],
+                                                                 wind_speed=expect_current_weather['wind']['speed'],
+                                                                 cloud_rate=expect_current_weather['clouds']['all'],
+                                                                 hpa_value=expect_current_weather['main']['pressure']))
+            )
+            actual_lat_long = re.findall(r"[\d\.]+", actual_weather_data['txt_coordinate'].get_text())
+            assert_that(round(float(actual_lat_long[0]), 2), expect_current_weather['coord']['lat'])
+>           assert_that(round(float(actual_lat_long[1]), 2), expect_current_weather['coord']['lon'])
+E           AssertionError: soft assertion failures:
+E           1. Expected <broken clouds> to be equal to <light rain>, but was not.
+E           2. Expected <27\xb0\u0421 temperature from 27 to 27 \xb0\u0421, wind 2.6 m/s. clouds 75 %, 1009 hpa> to be equal to <27\xb0\u0421 temperature from 27 to 27 \xb0\u0421, wind 1.5 m/s. clouds 75 %, 1009 hpa>, but was not.
+
+src\page_objects\open_weather\search_weather_result_page.py:67: AssertionError
+---------------------------- Captured stdout setup ----------------------------
+Setup
+-------------------------- Captured stdout teardown ---------------------------
+Teardown
+=========================== short test summary info ===========================
+FAILED src\test_cases\UI\open_weather_test.py::TestOpenWeather::test_search_weather_with_valid_city_and_display_results_correctly[ho chi minh]
+FAILED src\test_cases\UI\open_weather_test.py::TestOpenWeather::test_search_weather_with_valid_city_and_display_results_correctly[ho chi minh, vn]
+======================== 2 failed in 106.78s (0:01:46) ========================
