@@ -2,7 +2,7 @@
 - Get [python 3](https://www.python.org/downloads/)
 - Install python include "pip"
 
-## IDE
+## IDE/Editor
 __Window__:
  - [Pycharm](https://www.jetbrains.com/pycharm/)
  - [Vscode](https://code.visualstudio.com/)
